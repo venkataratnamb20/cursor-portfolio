@@ -7,12 +7,47 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Diagnostic reports
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage
+coverage
+*.lcov
+.nyc_output
+
+# Dependency directories
 node_modules
+jspm_packages/
+bower_components
+
+# Build output
 dist
 dist-ssr
+build/Release
+
+# TypeScript
+*.tsbuildinfo
+
+# Cache
+.npm
+.eslintcache
+.stylelintcache
+.cache
+.parcel-cache
+
+# Environment
+.env
+.env.*
+!.env.example
 *.local
 
-# Editor directories and files
+# Editor
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -24,14 +59,10 @@ dist-ssr
 *.sw?
 
 # Playwright
-/test-results/
-/playwright-report/
-/blob-report/
+test-results/
+playwright-report/
+blob-report/
 
-# Environment
-.env
-.env.*
-!.env.example
-
-# Coverage
-coverage/
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
