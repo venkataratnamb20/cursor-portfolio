@@ -1,0 +1,54 @@
+# Portfolio Typography
+# Pairing: Distinctive display font + refined readable body font
+# Avoid generic: Inter, Roboto, Arial
+
+# Font families (Google Fonts)
+fonts:
+  display: "Fraunces, Georgia, serif"     # Characterful display for headings
+  body: "Source Sans 3, system-ui, sans-serif"  # Clean, readable body text
+  mono: "JetBrains Mono, monospace"       # Code/technical content
+
+# Scale (rem)
+scale:
+  h1:
+    size: 3.5
+    weight: 600
+    line_height: 1.2
+    letter_spacing: "-0.02em"
+  h2:
+    size: 2.5
+    weight: 600
+    line_height: 1.25
+    letter_spacing: "-0.01em"
+  h3:
+    size: 1.75
+    weight: 600
+    line_height: 1.3
+  h4:
+    size: 1.375
+    weight: 600
+    line_height: 1.35
+  h5:
+    size: 1.125
+    weight: 600
+    line_height: 1.4
+  h6:
+    size: 1
+    weight: 600
+    line_height: 1.45
+  body:
+    size: 1.0625
+    weight: 400
+    line_height: 1.6
+  body_lg:
+    size: 1.25
+    weight: 400
+    line_height: 1.6
+  caption:
+    size: 0.875
+    weight: 400
+    line_height: 1.5
+  small:
+    size: 0.75
+    weight: 400
+    line_height: 1.5

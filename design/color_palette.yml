@@ -1,0 +1,66 @@
+# Portfolio Color Palette (Pastel)
+# Based on Material Design color system and professional portfolio guidelines
+# References: https://m2.material.io/design/color/the-color-system.html
+
+primary:
+  main: "#6B9B8A"      # Sage green - calm, professional
+  light: "#8FC4B0"
+  dark: "#4A7A6A"
+
+secondary:
+  main: "#E8A87C"      # Warm peach - approachable accent
+  light: "#F0C9A8"
+  dark: "#D4895A"
+
+tertiary:
+  main: "#B8A9C9"      # Soft lavender - subtle highlights
+  light: "#D4CAE0"
+  dark: "#9B8AB3"
+
+# Supplementary/accent colors
+accent:
+  link: "#5B7C99"      # Muted blue for links
+  badge: "#C9B8A9"     # Warm taupe for badges
+
+# Neutrals
+white: "#FFFFFF"
+black: "#1A1A1A"
+
+grey_tones:
+  50: "#FAFAFA"
+  100: "#F5F5F5"
+  200: "#EEEEEE"
+  300: "#E0E0E0"
+  400: "#BDBDBD"
+  500: "#9E9E9E"
+  600: "#757575"
+  700: "#616161"
+  800: "#424242"
+  900: "#212121"
+
+# Semantic
+background:
+  default: "#FDFBF7"   # Warm off-white
+  alt: "#FAF7F2"       # Slightly warmer surface
+
+surfaces:
+  card: "#FFFFFF"
+  elevated: "#FFFFFF"
+  overlay: "rgba(26, 26, 26, 0.5)"
+
+# Feedback
+error: "#C75C5C"
+warning: "#D4A84B"
+success: "#5C9B6B"
+
+# UI
+typography:
+  primary: "#1A1A1A"
+  secondary: "#424242"
+  tertiary: "#757575"
+  inverse: "#FFFFFF"
+
+iconography:
+  default: "#424242"
+  accent: "#6B9B8A"
+  muted: "#9E9E9E"
