@@ -137,9 +137,21 @@ make docker-logs    # View nginx logs
 
 See [docs/DOCKER.md](docs/DOCKER.md) for production best practices.
 
+### GitHub Actions
+
+| Workflow | Trigger | Jobs |
+|----------|---------|------|
+| **CI** | Push/PR to `main`, `develop` | Lint, unit tests, build, E2E tests, Docker build |
+| **Deploy Pages** | Push to `main` | Build and deploy to GitHub Pages |
+| **Deploy Docker** | Push to `main` or tags `v*` | Build and push images to GHCR |
+
+**GitHub Pages setup:** Settings → Pages → Source: GitHub Actions. Site will be at `https://<user>.github.io/<repo>/`.
+
+**Docker images:** Pushed to `ghcr.io/<owner>/portfolio2-app` and `ghcr.io/<owner>/portfolio2-nginx`.
+
 ### Static Host
 
-Alternatively, build and deploy the `dist/` folder to any static host (Vercel, Netlify, GitHub Pages, etc.):
+Alternatively, build and deploy the `dist/` folder to any static host (Vercel, Netlify, etc.):
 
 ```bash
 npm run build
