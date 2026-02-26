@@ -98,35 +98,44 @@ portfolio2/
 
 ### Docker
 
-Build and run with Docker (layered build, non-root user, nginx Alpine):
+**Architecture:** App containers serve the React build; Nginx acts as load balancer, reverse proxy, and cache.
+
+| Service | Role |
+|---------|------|
+| `app` | Serves static files (port 8080, internal) |
+| `nginx` | Load balancer, proxy cache, security headers (port 8080, exposed) |
+
+**Single container (all-in-one):**
 
 ```bash
-# Build image
 docker build -t portfolio2:latest .
-
-# Run container (app on http://localhost:8080)
 docker run -p 8080:8080 portfolio2:latest
 ```
 
-Or with Docker Compose:
+**Multi-container (app + nginx with LB and cache):**
 
 ```bash
-docker compose up --build
+docker compose up --build -d
 ```
 
-Using Makefile (optional):
+With load balancing (2+ app replicas):
 
 ```bash
-make docker-build    # Build image
-make docker-run     # Run container (foreground)
-make docker-up      # Start with compose (background)
-make docker-down    # Stop compose
-make docker-logs    # View logs
+docker compose up --build -d --scale app=2
 ```
 
 Then open [http://localhost:8080](http://localhost:8080).
 
-The image follows production best practices: lightweight (multi-stage, Alpine), secure (non-root, hardened nginx, security headers), and high performance (gzip, sendfile, open_file_cache). See [docs/DOCKER.md](docs/DOCKER.md) for details.
+**Makefile:**
+
+```bash
+make docker-build    # Build app image
+make docker-up      # Start app + nginx (compose)
+make docker-down    # Stop
+make docker-logs    # View nginx logs
+```
+
+See [docs/DOCKER.md](docs/DOCKER.md) for production best practices.
 
 ### Static Host
 

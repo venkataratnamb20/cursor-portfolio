@@ -22,7 +22,7 @@ RUN rm -rf /etc/nginx/conf.d/default.conf \
     && apk add --no-cache wget
 
 # Copy config and assets
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx-app.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Fix ownership

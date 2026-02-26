@@ -1,14 +1,30 @@
 services:
-  portfolio:
+  # App: serves static React build; scale for load balancing
+  app:
     build: .
-    image: portfolio2:latest
-    container_name: portfolio2
-    ports:
-      - "8080:8080"
+    image: portfolio2-app:latest
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/"]
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:8080/"]
       interval: 30s
       timeout: 3s
       retries: 3
       start_period: 5s
+    deploy:
+      replicas: 2  # Use --scale app=N to override
+
+  # Nginx: load balancer + reverse proxy + cache
+  nginx:
+    build: ./nginx
+    image: portfolio2-nginx:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - app
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:8080/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s

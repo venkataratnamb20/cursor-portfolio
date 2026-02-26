@@ -2,32 +2,47 @@
 
 This document describes the production best practices applied to the portfolio Docker setup.
 
+## Architecture
+
+| Component | Role |
+|-----------|------|
+| **App** | Serves static React build on port 8080 (internal) |
+| **Nginx** | Load balancer, reverse proxy, proxy cache; exposes port 8080 |
+
+## Multi-Container Setup
+
+- **App container**: Built from `Dockerfile`; serves static files via nginx.
+- **Nginx container**: Built from `nginx/Dockerfile`; load balances across app instances and caches responses.
+- **Load balancing**: `least_conn` across app replicas (use `--scale app=2` for multiple backends).
+- **Proxy cache**: 100MB cache, 1d TTL for 200 responses; `index.html` bypassed for SPA updates.
+- **Cache header**: `X-Cache-Status` shows HIT/MISS/BYPASS.
+
 ## Lightweight
 
-- **Multi-stage build**: Build stage (Node) is discarded; only built static assets are copied to the final image. No build tools (npm, TypeScript, Vite) in production.
-- **Alpine base**: `nginxinc/nginx-unprivileged:alpine` uses minimal Alpine Linux (~50MB for nginx layer).
-- **Minimal healthcheck**: `wget` (~1.5MB) added for HTTP healthcheck; no heavier tools.
-- **Layer ordering**: Dependencies installed before source copy for better cache reuse.
+- **Multi-stage build**: Build stage (Node) is discarded; only static assets in final app image.
+- **Alpine base**: Both app and nginx use `nginxinc/nginx-unprivileged:alpine`.
+- **Separate concerns**: Nginx image has no app content; app image has no LB logic.
 
 ## Secure
 
-- **Non-root runtime**: Container runs as UID 101 (nginx user); no root at runtime.
-- **server_tokens off**: Hides nginx version in response headers.
-- **Security headers**: X-Frame-Options, X-Content-Type-Options, X-XSS-Protection, Referrer-Policy, Permissions-Policy, Content-Security-Policy.
-- **No secrets in image**: Environment variables and secrets managed at deploy time.
-- **OCI labels**: Image metadata for traceability.
+- **Non-root runtime**: Both containers run as UID 101.
+- **server_tokens off**: Hides nginx version.
+- **Security headers**: Applied at nginx (edge); app focuses on serving only.
 
 ## High Performance
 
-- **sendfile on**: Uses kernel sendfile for efficient file serving.
-- **tcp_nopush / tcp_nodelay**: Optimized TCP behavior.
-- **open_file_cache**: Caches file descriptors to reduce disk I/O.
-- **Gzip**: Level 5, min_length 256 (avoids compressing tiny responses).
-- **Long-lived asset cache**: `/assets/` has 1-year immutable cache.
+- **App**: sendfile, open_file_cache, gzip.
+- **Nginx**: proxy_cache, least_conn load balancing, 10s DNS re-resolution.
+- **Cache**: Static assets cached 1d; HTML bypassed for freshness.
 
 ## Usage
 
 ```bash
-docker build -t portfolio2:latest .
-docker run -p 8080:8080 portfolio2:latest
+# Single container (all-in-one)
+docker build -t portfolio2-app:latest .
+docker run -p 8080:8080 portfolio2-app:latest
+
+# Multi-container (LB + cache)
+docker compose up --build -d
+docker compose up --build -d --scale app=2  # 2 app replicas
 ```
