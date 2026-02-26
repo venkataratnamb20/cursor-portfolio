@@ -124,7 +124,9 @@ make docker-down    # Stop compose
 make docker-logs    # View logs
 ```
 
-Then open [http://localhost:8080](http://localhost:8080). The image includes a healthcheck and runs as a non-root user.
+Then open [http://localhost:8080](http://localhost:8080).
+
+The image follows production best practices: lightweight (multi-stage, Alpine), secure (non-root, hardened nginx, security headers), and high performance (gzip, sendfile, open_file_cache). See [docs/DOCKER.md](docs/DOCKER.md) for details.
 
 ### Static Host
 

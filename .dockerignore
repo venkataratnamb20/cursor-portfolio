@@ -1,15 +1,31 @@
+# Dependencies and build artifacts
 node_modules
 dist
+
+# Version control
 .git
 .gitignore
-*.md
+.gitattributes
+
+# Environment and secrets
 .env*
+*.pem
+*.key
+
+# IDE and OS
 .vscode
 .idea
+.DS_Store
+
+# Tests and coverage (not needed for production image)
 test-results
 playwright-report
 blob-report
 e2e
 *.test.*
 *.spec.*
-.DS_Store
+coverage
+
+# Docs (exclude to shrink build context)
+*.md
+LICENSE*
