@@ -17,7 +17,8 @@ RUN npm run build
 # Stage 2: Serve - minimal runtime (no build tools)
 FROM nginxinc/nginx-unprivileged:alpine
 
-# Setup as root, then drop to non-root
+USER root
+
 RUN rm -rf /etc/nginx/conf.d/default.conf \
     && apk add --no-cache wget
 
